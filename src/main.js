@@ -4,6 +4,10 @@ import router from '@/router'
 Vue.config.productionTip = false
 import TypeNav from '@/components/TypeNav'
 import store from '@/store'
+//引入swiper样式
+import 'swiper/css/swiper.css'
+//引入mock数据
+import '@/mock/mockServe'
 // import {reqCategoryList} from '@/api/index'
 // reqCategoryList()
 // console.log(reqCategoryList())
