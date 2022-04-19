@@ -16,7 +16,7 @@
         <Recommend></Recommend>
         <Rank></Rank>
         <Like></Like>
-        <Floor></Floor>
+        <Floor v-for="floor in floorList" :key="floor.id" :floor="floor"></Floor>
         <Brand></Brand>
     </div>
 </template>
@@ -28,6 +28,7 @@ import Rank from '@/pages/Home/Rank'
 import Like from '@/pages/Home/Like'
 import Floor from '@/pages/Home/Floor'
 import Brand from '@/pages/Home/Brand'
+import {mapState} from 'vuex'
 export default {
   // 组件名称
   name: '',
@@ -47,7 +48,11 @@ export default {
     return {}
   },
   // 计算属性
-  computed: {},
+  computed: {
+     ...mapState({
+          floorList:state=>state.home.floorList
+      })
+  },
   // 侦听器
   watch: {},
   // 组件方法
@@ -73,6 +78,7 @@ export default {
   * 如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$ el 也在文档内。
   */
   mounted () {
+    this.$store.dispatch('getFloorList')
   },
   /**
   * 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
