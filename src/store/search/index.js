@@ -1,7 +1,42 @@
-const state={}
-const mutations = {}
-const actions = {}
-const getters = {}
+import { reqGetSearchinfo } from "@/api"
+const state={
+    SearchInfo:[]
+}
+const mutations = {
+    SEARCHINFO(state,SearchInfo){
+        state.SearchInfo = SearchInfo
+    }
+}
+const actions = {
+  async getSearchInfo({commit},data={}){
+        let result = await reqGetSearchinfo(data)
+        console.log(result)
+        if(result.code === 200){
+            commit("SEARCHINFO",result.data)
+        }
+    }
+}
+const getters = {
+   goodsList(state){
+       if(state.SearchInfo.goodsList){
+        return state.SearchInfo.goodsList
+       }
+       return []
+    },
+   trademarkList(state){
+    if(state.SearchInfo.trademarkList){
+        return state.SearchInfo.trademarkList
+       }
+       return []
+   },
+   attrsList(state){
+    if(state.SearchInfo.attrsList){
+        return state.SearchInfo.attrsList
+       }
+       return []
+   }
+  
+}
 
 export default {
     // namespaced:true,

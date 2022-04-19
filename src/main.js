@@ -15,9 +15,15 @@ import '@/mock/mockServe'
 //注册全局组件
 Vue.component(TypeNav.name,TypeNav)
 Vue.component(Carsousel.name,Carsousel)
+
+
 new Vue({
   render: h => h(App),
   router,
   //组件实例对象的身上会多了一个属性$store
-  store
+  store,
+  //配置全局事件总线
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  },
 }).$mount('#app')

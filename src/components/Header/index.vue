@@ -101,6 +101,9 @@ export default {
   * 如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$ el 也在文档内。
   */
   mounted () {
+      this.$bus.$on("clear",()=>{
+          this.keyword = ''
+      })
   },
   /**
   * 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
