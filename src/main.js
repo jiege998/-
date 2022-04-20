@@ -7,6 +7,7 @@ import store from '@/store'
 //引入swiper样式
 import 'swiper/css/swiper.css'
 import Carsousel from '@/components/Carsousel'
+import Pagination from '@/components/Pagination'
 //引入mock数据
 import '@/mock/mockServe'
 // import {reqCategoryList} from '@/api/index'
@@ -14,7 +15,7 @@ import '@/mock/mockServe'
 // console.log(reqCategoryList())
 //注册全局组件
 Vue.component(TypeNav.name,TypeNav)
-Vue.component(Carsousel.name,Carsousel)
+Vue.component(Pagination.name,Pagination)
 
 
 new Vue({
