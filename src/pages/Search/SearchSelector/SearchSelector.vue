@@ -12,11 +12,11 @@
         <a href="javascript:void(0);">更多</a>
       </div>
     </div>
-    <div class="type-wrap" v-for="item in attrsList" :key="item.id">
+    <div class="type-wrap" v-for="item in attrsList" :key="item.attrId">
       <div class="fl key">{{item.attrName}}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attr,index) in item.attrValueList" :key="index">
+          <li v-for="(attr,index) in item.attrValueList" :key="index" @click="attrInfo(item,attr)">
             <a>{{attr}}</a>
           </li>
         </ul>
@@ -36,6 +36,9 @@ import {mapGetters} from 'vuex'
     methods:{
       tradeMatkHander(trademark){
           this.$emit('tradmarkInfo',trademark)
+      },
+      attrInfo(item,attr){
+         this.$emit('attrInfo',item,attr)
       }
     }
   }
