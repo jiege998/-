@@ -15,11 +15,12 @@
             <li v-show="SearchParams.categoryName" class="with-x">{{SearchParams.categoryName }}<i @click="removeCategoryName">×</i></li>
             <!-- 关键字面包屑 -->
             <li v-show="SearchParams.keyword" class="with-x">{{SearchParams.keyword}}<i @click="removeKeyword">×</i></li>
+            <li v-show="SearchParams.trademark" class="with-x">{{SearchParams.trademark.split(":")[1]}}<i @click="removeTrademark">×</i></li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @tradmarkInfo="trademarkInfo"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -168,7 +169,6 @@ export default {
     Object.assign(this.SearchParams,this.$route.query,this.$route.params)
    
   },
-
   mounted(){
     this.getData()
   },
@@ -196,6 +196,15 @@ export default {
       if(this.$route.query){
          this.$router.push({name:'search',query:this.$route.query})
        }
+    },
+    trademarkInfo(trademark){
+      this.SearchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+      this.getData()
+    },
+    removeTrademark(){
+      this.SearchParams.trademark = ''
+      this.getData()
+
     }
   }
 };
