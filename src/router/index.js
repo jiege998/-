@@ -6,6 +6,7 @@ import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import Search from '@/pages/Search'
 import Register from '@/pages/Register'
+import Detail from '@/pages/Detail'
 //先把VueRouter原型对象的push,先保存一份
 let originPush = VueRouter.prototype.push
 let originReplace = VueRouter.prototype.replace
@@ -68,8 +69,19 @@ export default new VueRouter({
             }
         },
         {
+            path:'/detail/:skuid',
+            component:Detail,
+            meta:{
+                show:true
+            }
+        },
+        {
              path:'/',
              redirect:'/home'
         }
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        // 始终滚动到顶部
+        return { top: 0 }
+      },
 })

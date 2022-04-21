@@ -12,3 +12,7 @@ export const reqGetSearchinfo= (data)=> request({
     method:'POST',
     data
 })
+
+export const reqDteailinfo= (skuid)=> request({
+    url:`/item/${skuid}`,
+})

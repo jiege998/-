@@ -1,16 +1,13 @@
 <template>
     <div class="pagination">
         <button :disabled="pageNo == 1" @click="$emit('getPageNo',pageNo-1)" >上一页</button>
-        <button v-if="startNumAndNum.start>1"  
-            :style="{backgroundColor:(currInt === 1?'red':'')}" @click='changePageNo(1)'>1</button>
+        <button v-if="startNumAndNum.start>1" @click="$emit('getPageNo',1)" :class="{'active':pageNo ===1}">1</button>
         <button v-if="startNumAndNum.start>2">...</button>
 
-        <button v-for="(page, index) in startNumAndNum.end" :key="index" v-if="page>=startNumAndNum.start" 
-            :style="{backgroundColor:(currInt === page?'red':'')}" @click="changePageNo(page)">{{page}}</button>
+        <button v-for="(page, index) in startNumAndNum.end" :key="index" v-show="page>=startNumAndNum.start" @click="$emit('getPageNo',page)" :class="{'active':pageNo ===page}">{{page}}</button>
 
         <button v-if="startNumAndNum.end<totalPage-1">...</button>
-        <button v-if="startNumAndNum.end<totalPage" 
-            :style="{backgroundColor:(currInt === totalPage?'red':'')}" @click="changePageNo(totalPage)">{{totalPage}}</button>
+        <button v-if="startNumAndNum.end<totalPage" @click="$emit('getPageNo',totalPage)" :class="{'active':pageNo ===totalPage}">{{totalPage}}</button>
         <button :disabled="pageNo == totalPage" @click="$emit('getPageNo',pageNo+1)">下一页</button>
 
         <button style="margin-left: 30px">共 {{total}} 条</button>
@@ -21,11 +18,6 @@
     export default {
         name: "Pagination",
         props:['pageNo','pageSize','total','continues'],
-        data(){
-            return {
-                currInt:1
-            }
-        },
         computed:{
             //计算总共有多少页
             totalPage(){
@@ -33,6 +25,7 @@
             },
             startNumAndNum(){
                 const {continues,pageNo,totalPage} = this
+                //continues连续的页码
                 let start = 0,end = 0
                 if(continues > totalPage){
                     start = 1
@@ -50,12 +43,6 @@
                     }
                 }
                 return {start,end}
-            }
-        },
-        methods:{
-            changePageNo(index){
-                this.$emit('getPageNo',index)
-                this.currInt = index
             }
         }
     }

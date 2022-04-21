@@ -16,6 +16,7 @@ import '@/mock/mockServe'
 //注册全局组件
 Vue.component(TypeNav.name,TypeNav)
 Vue.component(Pagination.name,Pagination)
+Vue.component(Carsousel.name,Carsousel)
 
 
 new Vue({
