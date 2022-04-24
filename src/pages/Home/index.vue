@@ -50,7 +50,8 @@ export default {
   // 计算属性
   computed: {
      ...mapState({
-          floorList:state=>state.home.floorList
+          floorList:state=>state.home.floorList,
+          userInfo:state=>state.user.userInfo
       })
   },
   // 侦听器

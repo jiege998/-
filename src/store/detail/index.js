@@ -1,6 +1,8 @@
-import { reqDteailinfo } from "@/api"
+import { reqDteailinfo,reqAddOrUpdateShopCart } from "@/api"
+import {getUUID} from '@/utils/uuid_token'
 const state={
-    DetailInfo:{}
+    DetailInfo:{},
+    uuid_token:getUUID()
 }
 const mutations = {
     DETAILINFO(state,DetailInfo){
@@ -12,6 +14,13 @@ const actions = {
         let result = await reqDteailinfo(skuid)
         if(result.code == 200){
             commit('DETAILINFO',result.data)
+        }
+    },
+    async addOrUpdateShopCart({commit},{skuId,skuNum}){
+        let result = await reqAddOrUpdateShopCart(skuId,skuNum)
+        if(result.code == 200) return 'ok'
+        else{
+            return Promise.reject(new Error('添加失败'))
         }
     }
 

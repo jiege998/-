@@ -7,6 +7,9 @@ import Login from '@/pages/Login'
 import Search from '@/pages/Search'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
+import Addcartsuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
+import store from '@/store'
 //先把VueRouter原型对象的push,先保存一份
 let originPush = VueRouter.prototype.push
 let originReplace = VueRouter.prototype.replace
@@ -26,7 +29,7 @@ VueRouter.prototype.replace=function(location,resolve,reject){
         originReplace.call(this,location,()=>{},()=>{})
     }
 }
-export default new VueRouter({
+ let router = new VueRouter({
     mode:'history',
     routes:[
         {
@@ -76,6 +79,22 @@ export default new VueRouter({
             }
         },
         {
+            path:'/addcartsuccess',
+            name:'addcartsuccess',
+            component:Addcartsuccess,
+            meta:{
+                show:true
+            }
+        },
+        {
+            path:'/shopcart',
+            name:'shopcart',
+            component:ShopCart,
+            meta:{
+                show:true
+            }
+        },
+        {
              path:'/',
              redirect:'/home'
         }
@@ -85,3 +104,37 @@ export default new VueRouter({
         return { top: 0 }
       },
 })
+router.beforeEach(async (to,from,next)=>{
+    let name = store.state.user.userInfo.name
+    // next()
+    if(localStorage.getItem('TOKEN')){
+        if(to.path == "/login" || to.path == '/register'){
+            next('/home')
+        }else{
+            if(name){
+                next()
+            }else{
+                try {
+                    await store.dispatch('userInfo')
+                    next()
+                } catch (error) {
+                   await store.dispatch('loginOut')
+                   next('/login')
+                }
+              
+                
+            }
+            
+        }
+        
+    }else{
+        if(to.path == '/shopcart'){
+            next('/login')
+        }else{
+            next()
+        }
+       
+    }
+    
+})
+export default router;

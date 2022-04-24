@@ -71,12 +71,12 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" @change="changeSkuNum">
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum>1?skuNum--:1">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addShopCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -338,6 +338,11 @@
       ImageList,
       Zoom
     },
+    data() {
+      return {
+        skuNum:1
+      }
+    },
     computed:{
       ...mapState({
         DetailInfo:state=>state.detail.DetailInfo
@@ -356,6 +361,30 @@
           element.isChecked = '0'
         });
         saleAttrValue.isChecked = '1'
+      },
+      changeSkuNum(event){
+        let value = event.target.value * 1
+        if(isNaN(value) || value<1){
+          this.skuNum = 1
+        }else{
+          this.skuNum = parseInt(value)
+        }
+      },
+      async addShopCart(){
+       try {
+         await this.$store.dispatch('addOrUpdateShopCart',{skuId:this.$route.params.skuid,skuNum:this.skuNum})
+         sessionStorage.setItem("SKUINFO",JSON.stringify(this.skuInfo))
+         this.$router.push({
+           path:'/addcartsuccess',
+           query:{
+                skuNum:this.skuNum
+           }
+         })
+         
+       } catch (error) {
+         alert(error.message)
+       }
+       
       }
     }
   }

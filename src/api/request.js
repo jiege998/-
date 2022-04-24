@@ -1,5 +1,6 @@
 //对于axios进行二次封装
 import axios from "axios";
+import store from "@/store";
 //进度条
 import nprogress from "nprogress";
 //对外暴露
@@ -9,7 +10,14 @@ export const request = axios.create({
 })
 //请求拦截器
 request.interceptors.request.use((config)=>{
+    if(store.state.detail.uuid_token){
+        config.headers.userTempId = store.state.detail.uuid_token
+    }
+    if(localStorage.getItem('TOKEN')){
+        config.headers.token = localStorage.getItem('TOKEN')
+    }
     nprogress.start()
+    // console.log(config)
     return config
 })
 //响应拦截器
