@@ -39,7 +39,7 @@
                   placeholder="请输入密码"
                   v-model="password"
                   name="password"
-                  v-validate="{ required: true, regex: /^[0-9A-Za-z]{8,20}$/ }"
+                  v-validate="{ required: true, regex: /^[0-9A-Za-z]{6,20}$/ }"
                   :class="{ invalid: errors.has('password') }"
                 />
                 <p>{{ errors.first("password") }}</p>
