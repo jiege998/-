@@ -15,7 +15,7 @@
           placeholder="请输入你的手机号"
           v-model="phone"
           name="phone"
-          v-validate="{ required: true, regex: /^1\d{10}$/ }"
+          v-validate="{ required: true, regex: /^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\d{8}$/ }"
           :class="{ invalid: errors.has('phone') }"
         />
         <span class="error-msg">{{ errors.first("phone") }}</span>
@@ -23,7 +23,6 @@
       <div class="content">
         <label>验证码:</label>
         <input
-          type="text"
           placeholder="请输入验证码"
           v-model="code"
           name="code"
@@ -38,11 +37,10 @@
       <div class="content">
         <label>登录密码:</label>
         <input
-          type="text"
           placeholder="请输入你的登录密码"
           v-model="password"
           name="password"
-          v-validate="{ required: true, regex: /^[0-9A-Za-z]{8-20}$/ }"
+          v-validate="{ required: true, regex: /^[0-9A-Za-z]{6,20}$/ }"
           :class="{ invalid: errors.has('password') }"
         />
         <span class="error-msg">{{ errors.first("password") }}</span>
@@ -102,12 +100,13 @@ export default {
       phone: "",
       password: "",
       password1: "",
+      code: "",
       agree: true,
     };
   },
   computed: {
     ...mapState({
-      code: (state) => state.user.code,
+      Usercode: (state) => state.user.code,
     }),
   },
   methods: {
@@ -115,6 +114,7 @@ export default {
       try {
         const { phone } = this;
         phone && (await this.$store.dispatch("getCodeMessage", phone));
+        this.code = this.Usercode;
       } catch (error) {
         alert(error.message);
       }
@@ -123,13 +123,17 @@ export default {
       const success = await this.$validator.validateAll();
       try {
         const { phone, code, password } = this;
-        success &&
-          (await this.$store.dispatch("userRegister", {
+        if (success) {
+          await this.$store.dispatch("userRegister", {
             phone,
             code,
             password,
-          }));
-        this.$router.push("/login");
+          });
+          this.$router.push("/login");
+        }
+        else{
+          alert("请确认输入信息正确")
+        }
       } catch (error) {
         alert(error.message);
       }

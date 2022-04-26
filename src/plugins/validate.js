@@ -3,8 +3,8 @@ import veeValiDate from 'vee-validate';
 import zh_CN from 'vee-validate/dist/locale/zh_CN'
 vue.use(veeValiDate)
 veeValiDate.Validator.localize('zh_CN',{
-    message:{
-        ...zh_CN.message,
+    messages:{
+        ...zh_CN.messages,
         is:(field) => `${field}必须与密码相同`,
     },
     attributes:{
