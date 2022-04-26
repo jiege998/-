@@ -6,13 +6,15 @@ import search from '@/store/search'
 import detail from '@/store/detail'
 import shopcart from '@/store/shopcart'
 import user from '@/store/user'
+import trade from '@/store/trade'
 export default new Vuex.Store({
     modules:{
         home,
         search,
         detail,
         shopcart,
-        user
+        user,
+        trade
     }
 
 })

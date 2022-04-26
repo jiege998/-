@@ -2,13 +2,19 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import Search from '@/pages/Search'
-import Register from '@/pages/Register'
-import Detail from '@/pages/Detail'
-import Addcartsuccess from '@/pages/AddCartSuccess'
-import ShopCart from '@/pages/ShopCart'
+// import Home from '@/pages/Home'
+// import Login from '@/pages/Login'
+// import Search from '@/pages/Search'
+// import Register from '@/pages/Register'
+// import Detail from '@/pages/Detail'
+// import Addcartsuccess from '@/pages/AddCartSuccess'
+// import ShopCart from '@/pages/ShopCart'
+// import trade from '@/pages/Trade'
+// import pay from '@/pages/Pay'
+// import paySuccess from '@/pages/PaySuccess'
+// import center from '@/pages/Center'
+// import myOrder from '@/pages/Center/myOrder'
+// import groupOrder from '@/pages/Center/groupOrder'
 import store from '@/store'
 //先把VueRouter原型对象的push,先保存一份
 let originPush = VueRouter.prototype.push
@@ -33,22 +39,86 @@ VueRouter.prototype.replace=function(location,resolve,reject){
     mode:'history',
     routes:[
         {
+            path:'/center',
+            component:()=>import('@/pages/Center'),
+            meta:{
+                show:true
+            },
+            children:[
+                {
+                    path:'myOrder',
+                    component:()=>import('@/pages/Center/myOrder'),
+
+                },
+                {
+                    path:'groupOrder',
+                    component:()=>import('@/pages/Center/groupOrder'),
+                    
+                },{
+                    path:'/center',
+                    redirect:"/center/myOrder"
+                }
+            ]
+        },
+        {
+            path:'/paySuccess',
+            component:()=>import('@/pages/PaySuccess'),
+            meta:{
+                show:true
+            },
+            beforeEnter:(to,from,next)=>{
+                if(from.path == '/pay'){
+                    next()
+                }else{
+                    next(false)
+                }
+            }
+        },
+        {
+            path:'/pay',
+            component:()=>import('@/pages/Pay'),
+            meta:{
+                show:true
+            },
+            beforeEnter:(to,from,next)=>{
+                if(from.path == '/trade'){
+                    next()
+                }else{
+                    next(false)
+                }
+            }
+        },
+        {
+            path:'/trade',
+            component:()=>import('@/pages/Trade'),
+            meta:{
+                show:true
+            },
+            beforeEnter:(to,from,next)=>{
+                if(from.path == '/shopcart'){
+                    next()
+                }else{
+                    next(false)
+                }
+            }
+        },
+        {
             path:'/home',
-            component:Home,
+            component:()=>import('@/pages/Home'),
             meta:{
                 show:true
             }
         },
         {
             path:'/login',
-            component:Login,
+            component:()=>import('@/pages/Login'),
             meta:{
                 show:false
             }
         },
         {
             path:'/search/:keyword?',
-            component:Search,
+            component:()=>import('@/pages/Search'),
             name:'search',
             meta:{
                 show:false
@@ -66,14 +136,14 @@ VueRouter.prototype.replace=function(location,resolve,reject){
         },
         {
             path:'/register',
-            component:Register,
+            component:()=>import('@/pages/Register'),
             meta:{
                 show:true
             }
         },
         {
             path:'/detail/:skuid',
-            component:Detail,
+            component:()=>import('@/pages/Detail'),
             meta:{
                 show:true
             }
@@ -81,7 +151,7 @@ VueRouter.prototype.replace=function(location,resolve,reject){
         {
             path:'/addcartsuccess',
             name:'addcartsuccess',
-            component:Addcartsuccess,
+            component:()=>import('@/pages/AddCartSuccess'),
             meta:{
                 show:true
             }
@@ -89,7 +159,7 @@ VueRouter.prototype.replace=function(location,resolve,reject){
         {
             path:'/shopcart',
             name:'shopcart',
-            component:ShopCart,
+            component:()=>import('@/pages/ShopCart'),
             meta:{
                 show:true
             }
@@ -128,8 +198,8 @@ router.beforeEach(async (to,from,next)=>{
         }
         
     }else{
-        if(to.path == '/shopcart'){
-            next('/login')
+        if(to.path == '/pay' || to.path == '/trade' || to.path == '/paySuccess' || to.path.indexOf('/center') !=-1 ){
+            next('/login?redirect='+to.path)
         }else{
             next()
         }

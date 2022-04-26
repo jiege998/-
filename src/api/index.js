@@ -56,3 +56,31 @@ export const reqLoginOut= ()=> request.get(
     '/user/passport/logout',
 
 )
+
+export const reqAddressInfo = ()=> request.get(
+    '/user/userAddress/auth/findUserAddressList',
+
+)
+
+export const reqOrderInfo = ()=> request.get(
+    '/order/auth/trade',
+
+)
+//提交订单的接口/api/order/auth/submitOrder?tradeNo={tradeNo
+export const reqSubmitOrder=(tradeNo,data)=>request.post(
+    `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    data
+)
+//获取支付信息
+export const reqPayInfo=(orderId)=>request.get(
+    `/payment/weixin/createNative/${orderId}`,
+)
+//获取支付订单状态
+export const reqPayStatus=(orderId)=>request.get(
+    `/payment/weixin/queryPayStatus/${orderId}`,
+)
+//获取订单列表/order/auth/{page}/{limit}
+export const reqMyOrderList=(page,limit)=>request.get(
+    `/order/auth/${page}/${limit}`,
+)
+    

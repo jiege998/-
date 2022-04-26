@@ -25,7 +25,7 @@
             <div class="item-msg">{{ item.skuName }}</div>
           </li>
           <li class="cart-list-con4">
-            <span class="price">{{ item.skuPrice }}.00</span>
+            <span class="price">{{ item.cartPrice }}.00</span>
           </li>
           <li class="cart-list-con5">
             <a
@@ -50,7 +50,7 @@
             >
           </li>
           <li class="cart-list-con6">
-            <span class="sum">{{ item.skuNum * item.skuPrice }}</span>
+            <span class="sum">{{ item.skuNum * item.cartPrice }}</span>
           </li>
           <li class="cart-list-con7">
             <a href="#none" class="sindelet" @click="deleteShopCart(item)"
@@ -62,7 +62,7 @@
         </ul>
       </div>
     </div>
-    <div class="cart-tool">
+    <div class="cart-tool" v-if="cartInfoList">
       <div class="select-all">
         <input class="chooseAll" type="checkbox" :checked="isCheckedAll" @click="checkedAll" />
         <span>全选</span>
@@ -81,7 +81,7 @@
           <em>总价（不含运费） ：{{ totalPrice }}</em>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link to="/trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@ export default {
     totalPrice() {
       if (this.cartInfoList) {
         return this.cartInfoList.reduce((pre, obj) => {
-          pre = pre + (obj.isChecked == 1 ? obj.skuNum * obj.skuPrice : 0);
+          pre = pre + (obj.isChecked == 1 ? obj.skuNum * obj.cartPrice : 0);
           return pre;
         }, 0);
       }
